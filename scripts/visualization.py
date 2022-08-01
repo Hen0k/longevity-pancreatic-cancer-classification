@@ -43,11 +43,15 @@ class Plotters:
         plt.title(title, size=18, fontweight='bold')
         plt.show()
 
-    def plot_box(self, df: pd.DataFrame, x_col: str, title: str) -> None:
+    def plot_box(self, df: pd.DataFrame, x_col: str = None, title: str = None) -> None:
         plt.figure(figsize=(self.w, self.h))
-        sns.boxplot(data=df, x=x_col)
-        plt.title(title, size=20)
-        plt.xticks(rotation=75, fontsize=14)
+        if x_col:
+            sns.boxplot(data=df, x=x_col)
+            plt.title(title, size=20)
+            plt.xticks(rotation=75, fontsize=14)
+        else:
+            sns.boxplot(data=df, orient="h")
+            plt.title(title, size=20)
         plt.show()
 
     def plot_box_multi(self, df: pd.DataFrame, x_col: str, y_col: str, title: str) -> None:
