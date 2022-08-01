@@ -1,5 +1,6 @@
 from fileinput import filename
 import io
+import traceback
 import dvc.api
 import pandas as pd
 
@@ -21,11 +22,12 @@ class DataLoader:
             content = dvc.api.read(path=path,
                                    repo=repo,
                                    rev=version)
-            df = pd.read_csv(io.StringIO(content), sep=",")
-            print(
-                f"DVC: CSV file read with path: {path} | version: {version} | from: {repo}")
-            return df
+            # df = pd.read_csv(io.StringIO(content), sep=",")
+            # print(
+            #     f"DVC: CSV file read with path: {path} | version: {version} | from: {repo}")
+            # return df
         except:
+            print(traceback.print_exc())
             print("DVC data getter raised an exception")
 
     @staticmethod
