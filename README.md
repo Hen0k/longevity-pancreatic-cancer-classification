@@ -23,16 +23,17 @@ It has the following columns:
 The goal here was to be able to predict the diagnosis of a patient given some of the above parameters. I decided not to use some of the features because they wouldn't contribute much to the prediction power of the model or because they would introduce some unwanted bias into the model.
 [This][dataset-link] dataset was created to train a model that is able to differentiating between 3 (pancreatic cancer) versus 2 (non-cancerous pancreas condition) and 1 (healthy). But I decided to simplify the task into predicting only the diagnosis column. This makes the problem a 3 class classification task.
 
-Here are the columns I decided to use:
+Here are the columns I decided to use as the features:
 
 - **`age`**
 - **`sex`**
-- **`diagnosis`**
 - **`plasma_CA19_9`**
 - **`creatinine`**
 - **`LYVE1`**
 - **`REG1B`**
 - **`TFF1`**
 - **`REG1A`**
+
+The target is the **`diagnosis`** column with three distinct values/classes.
 
 [dataset-link]: https://www.kaggle.com/datasets/johnjdavisiv/urinary-biomarkers-for-pancreatic-cancer?select=Debernardi+et+al+2020+documentation.csv
