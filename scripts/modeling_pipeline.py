@@ -165,7 +165,7 @@ def label_encoder(df: pd.DataFrame, cat_columns: list[str]) -> pd.DataFrame:
     return df
 
 
-def get_pipeline(model, x):
+def get_pipeline(model, x, normalize=True, scale=True):
     cat_cols = CleanDataFrame.get_categorical_columns(x)
     num_cols = CleanDataFrame.get_numerical_columns(x)
 
@@ -173,10 +173,19 @@ def get_pipeline(model, x):
         ("cat_encoder", FunctionTransformer(
             label_encoder, kw_args={"cat_columns": cat_cols})),
     ])
-    numerical_transformer = Pipeline(steps=[
-        ('scale', StandardScaler()),
-        # ('norm', Normalizer()),
-    ])
+    if normalize and scale:
+        numerical_transformer = Pipeline(steps=[
+            ('scale', StandardScaler()),
+            ('norm', Normalizer()),
+        ])
+    elif normalize:
+        numerical_transformer = Pipeline(steps=[
+            ('norm', Normalizer()),
+        ])
+    elif scale:
+        numerical_transformer = Pipeline(steps=[
+            ('scale', StandardScaler())
+        ])
 
     preprocessor = ColumnTransformer(
         transformers=[
@@ -191,7 +200,14 @@ def get_pipeline(model, x):
     return train_pipeline
 
 
-def run_train_pipeline(model, x: pd.DataFrame, y, experiment_name: str, run_name: str):
+def run_train_pipeline(
+        model: any, 
+        x: pd.DataFrame, 
+        y, 
+        experiment_name: str, 
+        run_name: str, 
+        normalize: bool = False, 
+        scale: bool = True):
     '''
     function which executes the training pipeline
     Args:
@@ -203,7 +219,7 @@ def run_train_pipeline(model, x: pd.DataFrame, y, experiment_name: str, run_name
     # x = x.sort_values(by='Date', ascending=False)
     # x.drop(columns=['Date'], inplace=True)
     # x = label_encoder(x)
-    train_pipeline = get_pipeline(model, x)
+    train_pipeline = get_pipeline(model, x, normalize, scale)
 
     X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=50)
 
