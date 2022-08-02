@@ -175,7 +175,7 @@ def get_pipeline(model, x):
     ])
     numerical_transformer = Pipeline(steps=[
         ('scale', StandardScaler()),
-        ('norm', Normalizer()),
+        # ('norm', Normalizer()),
     ])
 
     preprocessor = ColumnTransformer(
